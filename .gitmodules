@@ -1,0 +1,3 @@
+[submodule "tools/socket-bridge/rc-switch"]
+	path = tools/socket-bridge/rc-switch
+	url = https://github.com/Sofoca/rc-switch
