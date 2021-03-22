@@ -1,8 +1,8 @@
 #!/usr/bin/env python3
 
-from cohydra import ArgumentParser, Network, DockerNode, Scenario
+from marvis import ArgumentParser, Network, DockerNode, Scenario
 
-from cohydra.visualization.netanimvisualization import NetAnimVisualization
+from marvis.visualization.netanimvisualization import NetAnimVisualization
 
 def main():
 

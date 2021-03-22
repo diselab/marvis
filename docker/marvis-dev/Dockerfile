@@ -1,6 +1,6 @@
-ARG COHYDRA_TAG=latest
+ARG PROJECT_TAG=latest
 
-FROM osmhpi/cohydra:$COHYDRA_TAG
+FROM ghcr.io/diselab/marvis:$PROJECT_TAG
 
 RUN apt-get update && \
 	apt-get install -y --no-install-recommends \

@@ -29,13 +29,13 @@ class ArgumentParser(argparse.ArgumentParser):
         logger_arg : string
             The name of the argument to pass the logger to the :code:`main` function.
         """
-        cohydra_name = __name__.rsplit('.', 1)[0]
+        marvis_name = __name__.rsplit('.', 1)[0]
 
         if setup_logging:
             default = 'INFO'
             self.add_argument('-v', '--verbose', action='store_const', const='DEBUG', default=default,
-                              help=f'enable verbose logging for the {cohydra_name} logger', dest='log_level')
-            self.add_argument('--log-level', default=default, help=f'log level for the {cohydra_name} logger')
+                              help=f'enable verbose logging for the {marvis_name} logger', dest='log_level')
+            self.add_argument('--log-level', default=default, help=f'log level for the {marvis_name} logger')
             self.add_argument('--global-log-level', default=default, help='log level for the global logger')
 
         args = vars(self.parse_args())
@@ -46,7 +46,7 @@ class ArgumentParser(argparse.ArgumentParser):
 
             logging.basicConfig(level=global_log_level)
             logging.getLogger().setLevel(global_log_level)
-            logging.getLogger(cohydra_name).setLevel(log_level)
+            logging.getLogger(marvis_name).setLevel(log_level)
             # Otherwise pylxd websockets would be a little verbose.
             logging.getLogger('ws4py').setLevel(logging.WARNING)
             logging.getLogger(__name__).debug('log_level=%s, global_log_level=%s', log_level, global_log_level)

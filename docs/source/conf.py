@@ -21,7 +21,7 @@ import sphinx_rtd_theme
 
 # -- Project information -----------------------------------------------------
 
-project = 'cohydra'
+project = 'marvis'
 author = 'Arne Boockmeyer, Martin Michaelis, Felix Gohla'
 copyright = f'{datetime.utcnow().year}, {author}'
 
@@ -93,7 +93,7 @@ html_show_sphinx = False
 
 # Link replacement
 extlinks = {
-    'src': ('https://github.com/osmhpi/cohydra/tree/master/%s', 'src ')
+    'src': ('https://github.com/diselab/marvis/tree/master/%s', 'src ')
 }
 
 # Inheritance diagram design

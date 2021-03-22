@@ -2,14 +2,14 @@
 API Reference
 =============
 
-cohydra
+marvis
 =======
 
-.. automodule:: cohydra
+.. automodule:: marvis
     :members:
     :undoc-members:
     :inherited-members:
 
-    .. autopackagesummary:: cohydra
+    .. autopackagesummary:: marvis
         :toctree: api
         :template: autosummary/package.rst

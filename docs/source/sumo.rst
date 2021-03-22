@@ -1,11 +1,11 @@
 ***********************
-Using SUMO With cohydra
+Using SUMO With marvis
 ***********************
 
-For simulating the movement of wireless network participants, cohydra provides a connection to
+For simulating the movement of wireless network participants, marvis provides a connection to
 the `SUMO <https://sumo.dlr.de/>`_ simulator.
 
-There are two ways to use SUMO with cohydra. In either way, cohydra uses the `TraCI <https://sumo.dlr.de/docs/TraCI.html>`_
+There are two ways to use SUMO with marvis. In either way, marvis uses the `TraCI <https://sumo.dlr.de/docs/TraCI.html>`_
 Python library to connect to the SUMO instance, running as server.
 
 Variant 1: Install SUMO On Simulation Host
@@ -15,8 +15,8 @@ You can install SUMO directly onto the simulation host. On Debian-based machines
 
     sudo apt-get install sumo sumo-tools sumo-docs
 
-**Important:** cohydra relies on the TraCI Python library.
-If you use cohydra *without Docker*, you need to ensure that cohydra can find the library.
+**Important:** marvis relies on the TraCI Python library.
+If you use marvis *without Docker*, you need to ensure that marvis can find the library.
 Set the ``SUMO_HOME`` environment variable accordingly: ::
 
     $ export SUMO_HOME="/usr/share/sumo"
@@ -32,11 +32,11 @@ You have to provide a port for TraCI: ::
 Run SUMO In Local Mode
 ======================
 
-**Prerequesite:** This assumes that **you are not using cohydra in Docker**! From within the cohydra-container, you cannot start SUMO automatically on the host.
-To install cohydra locally, please see :ref:`Local Installation Without Docker`.
+**Prerequesite:** This assumes that **you are not using marvis in Docker**! From within the marvis-container, you cannot start SUMO automatically on the host.
+To install marvis locally, please see :ref:`Local Installation Without Docker`.
 
-Cohydra can start the SUMO simulation for you. You can just pass a ``config_path`` to the initializer of the :class:`.SUMOMobilityInput`.
-The testbed will use a version of SUMO **without GUI** because there is no way to start the SUMO simulation automatically from cohydra with the GUI-version.
+Marvis can start the SUMO simulation for you. You can just pass a ``config_path`` to the initializer of the :class:`.SUMOMobilityInput`.
+The testbed will use a version of SUMO **without GUI** because there is no way to start the SUMO simulation automatically from marvis with the GUI-version.
 
 
 Variant 2: Using Docker
@@ -73,7 +73,7 @@ Now you can proceed like in the local installation by entering the command to st
     sumo-gui --remote-port 8813 -c /workspace/path/to/scenario.sumocfg
 
 
-Writing a SUMO Scenario With cohydra
+Writing a SUMO Scenario With marvis
 ####################################
 
 After installing and starting SUMO, the simulation be configured to use SUMO with the :class:`.SUMOMobilityInput` class.
@@ -83,14 +83,14 @@ Furthermore, nodes have to be mapped to SUMO IDs in order to be moved by the co-
 Connect To A SUMO Remote Mode Instance
 ======================================
 
-This example explains how to use cohydra with a SUMO server.
+This example explains how to use marvis with a SUMO server.
 
-*Note:* If you are using cohydra with Docker, you can access a SUMO Remote Mode Instance running on the Docker host with `localhost`.
+*Note:* If you are using marvis with Docker, you can access a SUMO Remote Mode Instance running on the Docker host with `localhost`.
 The container must be in the same network namespace, though. Please have a look at :ref:`Installation With Docker`.
 
 .. code-block:: python
 
-    from cohydra.mobility_input import SUMOMobilityInput
+    from marvis.mobility_input import SUMOMobilityInput
     #...
     # Scenario creation
     #...
@@ -105,11 +105,11 @@ The container must be in the same network namespace, though. Please have a look 
 Connect To A SUMO Local Mode Instance
 =====================================
 
-This example shows how to start SUMO with cohydra locally.
+This example shows how to start SUMO with marvis locally.
 
 .. code-block:: python
 
-    from cohydra.mobility_input import SUMOMobilityInput
+    from marvis.mobility_input import SUMOMobilityInput
     #...
     # Scenario creation
     #...

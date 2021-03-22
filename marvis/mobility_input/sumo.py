@@ -28,8 +28,8 @@ class SUMOMobilityInput(MobilityInput):
     * | **Local Mode**: In this mode the testbed starts a locally installed version of SUMO.
       | You configure the simulation via the ``sumo_cmd`` and ``config_path`` argument.
         If SUMO is not installed globally you need to set the ``SUMO_HOME`` environment variable.
-      | **Warning: This does not work when using cohydra in the prebuilt docker containers.**
-        For instructions on how to use cohydra without Docker,
+      | **Warning: This does not work when using marvis in the prebuilt docker containers.**
+        For instructions on how to use marvis without Docker,
         please refer to :ref:`Local Installation Without Docker` and :ref:`Install SUMO On Simulation Host`.
 
     Parameters

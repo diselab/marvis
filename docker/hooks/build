@@ -1,7 +1,0 @@
-#!/bin/sh -e
-
-# pull latest images to reuse layers if possible
-make -C .. pull-latest
-
-# build all images
-make -C .. latest

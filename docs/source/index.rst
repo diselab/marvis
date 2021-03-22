@@ -1,11 +1,11 @@
-cohydra - It's A Testbed! :)
+marvis - It's A Testbed! :)
 ============================
 
-cohydra is a hybrid testbed for simulating networks and fault-injection.
+marvis is a hybrid testbed for simulating networks and fault-injection.
 
 It uses the `ns-3 <https://www.nsnam.org>`_ simulator and connects containers and external hardware to the simulated network.
 By its fault-injection-API, the simulation can be manipulated in scenarios.
- 
+
 Contents:
 
 .. toctree::

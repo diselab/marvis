@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 
-from cohydra import ArgumentParser, Scenario, Network
-from cohydra.node import SSHNode
+from marvis import ArgumentParser, Scenario, Network
+from marvis.node import SSHNode
 
 def main():
     scenario = Scenario()

@@ -1,4 +1,4 @@
-"""Cohydra is a testbed for writing scenarios with the ns-3 network simulator."""
+"""Marvis is a testbed for writing scenarios with the ns-3 network simulator."""
 
 from .channel import Channel, CSMAChannel, WiFiChannel
 from .network import Network

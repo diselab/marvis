@@ -1,0 +1,94 @@
+name: docker
+
+on:
+  # Triggers the workflow on push or pull request events but only for the master branch
+  push:
+    branches: [ master ]
+  pull_request:
+    branches: [ master ]
+
+  # Allows you to run this workflow manually from the Actions tab
+  workflow_dispatch:
+
+# A workflow run is made up of one or more jobs that can run sequentially or in parallel
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+        with:
+          path: repo
+
+      - name: Checkout gh-pages
+        uses: actions/checkout@v2
+        with:
+          ref: gh-pages
+          path: docs
+          fetch-depth: 0
+
+      - name: Build all images
+        run: make -C repo all latest
+
+      - name: Delete docs for old branches
+        run: |
+          cd "docs"
+          find . -name .is_ref | while read line; do
+            ref="$(dirname "$line")"
+            ref="${ref:2}"
+            if ! git rev-parse --verify -q "refs/remotes/origin/$ref" > /dev/null; then
+              rm -rf "$ref"
+            fi
+          done
+
+      - name: Generate docs
+        run: |
+          GITHUB_BRANCH=${GITHUB_REF#refs/heads/}
+
+          docker run --rm -i -v "$GITHUB_WORKSPACE/repo:/app" -w /app ghcr.io/diselab/marvis:base bash << EOF
+          apt-get update
+          apt-get install -y make graphviz
+
+          pip3 install -r docs/requirements.txt
+
+          ln -s /app/marvis "/usr/local/lib/python3.7/site-packages/marvis"
+
+          export VERSIONS_JS_URL=https://diselab.github.io/marvis/versions.js
+
+          export SUMO_HOME=
+          exec make docs BUILD_TAG="$GITHUB_BRANCH"
+          EOF
+          
+          rm -rf "docs/${GITHUB_BRANCH}"
+          mkdir -pv "docs/${GITHUB_BRANCH}"
+          cp -Trv repo/docs/build/dirhtml "docs/${GITHUB_BRANCH}"
+          touch "docs/${GITHUB_BRANCH}/.is_ref"
+
+      - name: Update availabe docs versions
+        run: |
+          cd docs
+          ./.travis-scripts/build_versions.py
+
+      - name: Publish docs
+        run: |
+          cd docs
+          if [ -z "$(git status --porcelain)" ]; then
+            echo "Nothing to commit"
+          else
+            git config user.name "GitHub Actions"
+            git config user.email "<>"
+            git add .
+            git commit -m "Build docs for ${GITHUB_SHA::7} on branch ${GITHUB_REF#refs/heads/}"
+            git push
+          fi
+
+      - name: Login to GitHub Container Registry
+        uses: docker/login-action@v1
+        with:
+          registry: ghcr.io
+          username: ${{ github.repository_owner }}
+          password: ${{ secrets.CR_PAT }}
+      
+      - name: Push latest images
+        run: make -C repo push-latest
+        if: github.ref == 'refs/heads/master'

@@ -10,7 +10,7 @@ class Visualization(ABC):
 
     .. code-block:: python
 
-        from cohydra.visualization import Visualization, NoVisualization
+        from marvis.visualization import Visualization, NoVisualization
         Visualization.set_visualization(NoVisualization())
         Visualization.get_visualization().set_node_size(5.0)
     """

@@ -1,15 +1,15 @@
 export NS3_TAG ?= 3.33
 export SUMO_TAG ?= 1.4.0
-COHYDRA_TAG ?= $(shell if [ -z "`git status --porcelain`" ]; then git rev-parse --short HEAD; else echo dirty; fi)
-export COHYDRA_TAG := ${COHYDRA_TAG}
+PROJECT_TAG ?= $(shell if [ -z "`git status --porcelain`" ]; then git rev-parse --short HEAD; else echo dirty; fi)
+export PROJECT_TAG := ${PROJECT_TAG}
 
-docker_build := docker build --build-arg NS3_TAG --build-arg SUMO_TAG --build-arg COHYDRA_TAG
+docker_build := docker build --build-arg NS3_TAG --build-arg SUMO_TAG --build-arg PROJECT_TAG
 
-.PHONY: latest cohydra-base cohydra cohydra-dev docs
+.PHONY: latest marvis-base marvis marvis-dev docs
 
-all: cohydra-base cohydra cohydra-dev
+all: marvis-base marvis marvis-dev
 	#
-	# build tag ${COHYDRA_TAG}
+	# build tag ${PROJECT_TAG}
 	#
 
 git-is-clean:
@@ -21,33 +21,33 @@ endif
 
 
 latest:
-	docker tag osmhpi/cohydra:base-${COHYDRA_TAG} osmhpi/cohydra:base || true
-	docker tag osmhpi/cohydra:${COHYDRA_TAG} osmhpi/cohydra:latest 	  || true
-	docker tag osmhpi/cohydra:dev-${COHYDRA_TAG} osmhpi/cohydra:dev   || true
+	docker tag ghcr.io/diselab/marvis:base-${PROJECT_TAG} ghcr.io/diselab/marvis:base || true
+	docker tag ghcr.io/diselab/marvis:${PROJECT_TAG} ghcr.io/diselab/marvis:latest 	  || true
+	docker tag ghcr.io/diselab/marvis:dev-${PROJECT_TAG} ghcr.io/diselab/marvis:dev   || true
 
-cohydra-base:
-	${docker_build} -t osmhpi/cohydra:base-${COHYDRA_TAG} docker/cohydra-base
+marvis-base:
+	${docker_build} -t ghcr.io/diselab/marvis:base-${PROJECT_TAG} docker/marvis-base
 
-cohydra:
-	${docker_build} -t osmhpi/cohydra:${COHYDRA_TAG} . -f docker/Dockerfile
+marvis:
+	${docker_build} -t ghcr.io/diselab/marvis:${PROJECT_TAG} . -f docker/Dockerfile
 
-cohydra-dev:
-	${docker_build} -t osmhpi/cohydra:dev-${COHYDRA_TAG} docker/cohydra-dev
+marvis-dev:
+	${docker_build} -t ghcr.io/diselab/marvis:dev-${PROJECT_TAG} docker/marvis-dev
 
 pull-latest:
-	docker pull osmhpi/cohydra:base
-	docker pull osmhpi/cohydra:latest
-	docker pull osmhpi/cohydra:dev
+	docker pull ghcr.io/diselab/marvis:base
+	docker pull ghcr.io/diselab/marvis:latest
+	docker pull ghcr.io/diselab/marvis:dev
 
 push:
-	docker push osmhpi/cohydra:base-${COHYDRA_TAG}
-	docker push osmhpi/cohydra:${COHYDRA_TAG}
-	docker push osmhpi/cohydra:dev-${COHYDRA_TAG}
+	docker push ghcr.io/diselab/marvis:base-${PROJECT_TAG}
+	docker push ghcr.io/diselab/marvis:${PROJECT_TAG}
+	docker push ghcr.io/diselab/marvis:dev-${PROJECT_TAG}
 
 push-latest: git-is-clean push
-	docker push osmhpi/cohydra:base
-	docker push osmhpi/cohydra:latest
-	docker push osmhpi/cohydra:dev
+	docker push ghcr.io/diselab/marvis:base
+	docker push ghcr.io/diselab/marvis:latest
+	docker push ghcr.io/diselab/marvis:dev
 
 docs:
 	$(MAKE) -C docs

@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 
-from cohydra import ArgumentParser, Network, DockerNode, Scenario, WiFiChannel
+from marvis import ArgumentParser, Network, DockerNode, Scenario, WiFiChannel
 
 def main():
     scenario = Scenario()

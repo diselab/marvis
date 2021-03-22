@@ -14,7 +14,7 @@ class NetAnimVisualization(Visualization):
 
     .. code-block:: python
 
-        from cohydra.visualization.netanimvisualization import NetAnimVisualization
+        from marvis.visualization.netanimvisualization import NetAnimVisualization
         visualization = NetAnimVisualization()
         visualization.set_node_size(5.0)
         scenario.set_visualization(visualization)
