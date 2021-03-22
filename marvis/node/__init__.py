@@ -8,3 +8,4 @@ from .lxd import LXDNode
 from .external import ExternalNode
 from .interface import InterfaceNode
 from .ssh import SSHNode
+from .qemu import QEMUNode

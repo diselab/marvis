@@ -61,7 +61,7 @@ class CSMAChannel(Channel):
                 netmask = network.network.prefixlen
                 address = ipaddress.ip_interface(f'{ip_address}/{netmask}')
 
-            interface = Interface(node=node, ns3_device=ns3_device, address=address)
+            interface = Interface(node=node, ns3_device=ns3_device, address=address, mac_address=node.get_custom_mac())
             ns3_device.SetAddress(ns_net.Mac48Address(interface.mac_address))
             node.add_interface(interface)
             self.interfaces.append(interface)

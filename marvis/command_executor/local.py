@@ -21,7 +21,7 @@ class LocalCommandExecutor(CommandExecutor):
     def __init__(self, name=None):
         super().__init__(name)
 
-    def execute(self, command, user=None, shell=None, stdout_logfile=None, stderr_logfile=None):
+    def execute(self, command, user=None, shell=None, stdout_logfile=None, stderr_logfile=None, universal_newlines=None):
         if user is not None:
             raise ValueError('LocalCommandExecutor does not implement user argument')
         if stdout_logfile is not None or stderr_logfile is not None:
@@ -36,11 +36,15 @@ class LocalCommandExecutor(CommandExecutor):
         process = subprocess.Popen( # pylint: disable=subprocess-run-check
             command,
             shell=False if shell is None else shell,
+            universal_newlines=False if universal_newlines is None else universal_newlines,
             encoding='utf8',
             stdin=subprocess.DEVNULL,
             stdout=subprocess.PIPE,
             stderr=subprocess.PIPE,
         )
+        result = ''
+        for line in iter(process.stdout.readline, ''):
+            result += line.rstrip()
         out_thread = threading.Thread(target=log_file, args=(logger, logging.INFO, process.stdout, stdout_logfile))
         err_thread = threading.Thread(target=log_file, args=(logger, logging.ERROR, process.stderr, stderr_logfile))
 
@@ -53,3 +57,4 @@ class LocalCommandExecutor(CommandExecutor):
 
         if code != 0:
             raise ExitCode(code, command)
+        return result

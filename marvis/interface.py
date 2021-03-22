@@ -204,3 +204,16 @@ class Interface:
         index = ipr.link_lookup(ifname=ifname)[0]
         ipr.addr('add', index=index, address=str(self.address.ip), mask=self.address.network.prefixlen)
         ipr.link('set', index=index, state='up')
+
+    def setup_qemu_host_address(self, address):
+        """Setup the management IP address of the host to the QEMU VM.
+
+        Parameters
+        ----------
+        ifname : str
+            The interface name on the conthost machine.
+        address : str
+            The address to communicate with the guest VM.
+        """
+        ipr = IPRoute()
+        ipr.addr('add', index=ipr.link_lookup(ifname=self.bridge_name)[0], address=address, mask=24)

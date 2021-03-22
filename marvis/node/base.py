@@ -118,6 +118,9 @@ class Node:
             :code:`True` indicates that a ns-3 IP stack shall be installed when preparing this node.
         """
         raise NotImplementedError
+    
+    def get_custom_mac(self):
+        return None
 
     def execute_command(self, command, user=None):
         """Execute a command within the node.
