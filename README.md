@@ -53,7 +53,7 @@ apt install \
 ```
 
 The recommended Python version is Python 3.7. Python 3.8 is right now not supported (if you are running Ubuntu 20.04, make sure to install Python 3.7). 
-Also, make sure you have pip3 version 20 or up
+Also, make sure you have pip3 version 21 or up
 (if not, try `pip3 install --upgrade pip`).
 
 #### User Installation
