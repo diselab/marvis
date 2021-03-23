@@ -25,12 +25,12 @@ The [`ghcr.io/diselab/marvis:base`](./docker/marvis-base/Dockerfile) image insta
 ### Installation Without Using Docker
 
 In the case you do not want to use the prebuilt Docker, a normal ns-3
-installation with *NetAnim* Python bindings will work, too. Cohydra has
-so far been tested with **Debian 10 Buster** and **Ubuntu 18.04 Bionic
-Beaver**.
+installation with *NetAnim* Python bindings will work, too. Marvis has
+so far been tested with **Debian 10 Buster**, **Ubuntu 18.04 Bionic
+Beaver** and **Ubuntu 20.04 Focal Fossa**.
 
-The following instructions describe how to install Cohydra system-wide.
-If you want to install Cohydra for your user only (`pip3 install --user
+The following instructions describe how to install marvis system-wide.
+If you want to install marvis for your user only (`pip3 install --user
 …`), in a virtualenv, or in a pipenv, feel free to do so. However, we
 won't cover instructions in how to get the
 `PYTHONPATH`/virtualenv/pipenv together with privilege escalation (sudo)
@@ -52,14 +52,14 @@ apt install \
   rustc
 ```
 
-The recommended Python version is Python 3.7 and up.
-Also, make sure you have pip3 version 21 or up
+The recommended Python version is Python 3.7. Python 3.8 is right now not supported (if you are running Ubuntu 20.04, make sure to install Python 3.7). 
+Also, make sure you have pip3 version 20 or up
 (if not, try `pip3 install --upgrade pip`).
 
 #### User Installation
 
-If you do not plan to modify the source code of Cohydra yourself,
-Cohydra can be installed with the following command:
+If you do not plan to modify the source code of marvis yourself,
+marvis can be installed with the following command:
 
 ```shell script
 # without ns-3
@@ -73,14 +73,14 @@ The second of the commands above, will use our
 [Python Wheels repository](https://github.com/osmhpi/python-wheels)
 for easier installation of binary dependencies, such as ns-3.
 
-To run an example testcase, go to the example folder and run:
+To run an example testcase, download this repository, go to the example folder and run:
 ```shell script
 python3 basic_example.py
 ```
 
 #### Developer Installation
 
-If you do plan to modify the source code of Cohydra, clone this
+If you do plan to modify the source code of marvis, clone this
 repository and to install dependencies, run, e.g.:
 
 ```shell script
@@ -97,15 +97,13 @@ pip3 install -e '.[dev]'
 pip3 install -e '.[ns-3,dev]'
 ```
 
-In this case, where you do not install Cohydra itself but just its
-dependencies, the code of Cohydra needs to be in your `PYTHONPATH`.
+In this case, where you do not install marvis itself but just its
+dependencies, the code of marvis needs to be in your `PYTHONPATH`.
 E.g.:
 
 ```shell script
 export PYTHONPATH=$PYTHONPATH:$PWD/path/to/marvis-repo
 ```
-
-Marvis so far has only been tested with **Debian 10 Buster** and **Ubuntu 18.04 Bionic Beaver**.
 
 
 ## Contribution
@@ -121,9 +119,7 @@ Afterwards we are going to test your new feature and review the code.
 ## Contributors
 
  - Malte Andersch
- - Arne Boockmeyer
  - Felix Gohla
  - Martin Michaelis
  - Benedikt Schenkel
- - Robert Schmid
- 
+ - and the [diselab-Team](https://diselab.berlin)
