@@ -101,10 +101,12 @@ class Simulation:
         logger.info('Preparing simulation')
 
         # Add host to hostsfile.
-        ipr = IPRoute()
-        host_ip = ipr.get_addr(label='docker0')[0].get_attr('IFA_ADDRESS')
         self.hosts = defaultdict(list)
-        self.hosts['host'].append(host_ip)
+        ipr = IPRoute()
+        docker_network_interfaces = ipr.get_addr(label='docker0')
+        if len(docker_network_interfaces) > 0:
+            host_ip = ipr.get_addr(label='docker0')[0].get_attr('IFA_ADDRESS')
+            self.hosts['host'].append(host_ip)
 
         # Try to add influxdb to hosts file (if container is running).
         try:
