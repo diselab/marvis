@@ -67,7 +67,7 @@ class Node:
         mobility_model = self.ns3_node.GetObject(mobility.MobilityModel.GetTypeId())
         mobility_model.SetPosition(core.Vector(self.position[0], self.position[1], self.position[2]))
 
-    def add_interface(self, interface, name=None, prefix='eth'):
+    def add_interface(self, interface, name=None, prefix='eth', type_prefix=''):
         """Add an interface to the node.
 
         *Warning:* Do not call this function manually.
@@ -87,7 +87,7 @@ class Node:
             raise ValueError(f'Interface {name} already added')
         if name is None:
             for i in range(256):
-                test = f'ns3-{prefix}{i}'
+                test = f'ns3-{prefix}-{type_prefix}{i}'
                 if test not in self.interfaces:
                     name = test
                     break
