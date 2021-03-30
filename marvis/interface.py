@@ -187,8 +187,16 @@ class Interface:
         logger.debug('Create veth pair %s on bridge %s', self.veth_name, self.bridge_name)
         peer['address'] = self.mac_address
         ipr.link('add', ifname=self.veth_name, peer=peer, kind='veth')
+        defer(f'disconnect veth for ns3 node {self.node.name}', self.remove_veth_pair)
         ipr.link('set', ifname=self.veth_name, master=ipr.link_lookup(ifname=self.bridge_name)[0])
         ipr.link('set', ifname=self.veth_name, state='up')
+
+    def remove_veth_pair(self):
+        """Disconnect the veth pair and delete it."""
+        ipr = IPRoute()
+
+        logger.debug('Disconnect %s from veth via %s', self.node.name, self.veth_name)
+        ipr.link('del', ifname=self.veth_name)
 
     def setup_veth_container_end(self, ifname):
         """Setup the VETH in a container.
