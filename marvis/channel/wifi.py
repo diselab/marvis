@@ -61,7 +61,7 @@ class WiFiChannel(Channel):
         #: Standard from 2013.
         WIFI_802_11ac = wifi.WIFI_PHY_STANDARD_80211ac
         #: "WiFi 6".
-        # WIFI_802_11ax = wifi.WIFI_PHY_STANDARD_80211ax
+        WIFI_802_11ax = wifi.WIFI_PHY_STANDARD_80211ax
         #: Wireless Access in Vehicular Environments (WAVE).
         WIFI_802_11p = wifi.WIFI_PHY_STANDARD_80211_10MHZ
 
