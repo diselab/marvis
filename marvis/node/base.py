@@ -87,7 +87,7 @@ class Node:
             raise ValueError(f'Interface {name} already added')
         if name is None:
             for i in range(256):
-                test = f'ns3-{prefix}-{i}'
+                test = f'ns3-{prefix}{i}'
                 if test not in self.interfaces:
                     name = test
                     break

@@ -101,9 +101,11 @@ class Simulation:
         logger.info('Preparing simulation')
 
         # Add host to hostsfile.
-        self.hosts = defaultdict(list)
         ipr = IPRoute()
+        self.hosts = defaultdict(list)
         docker_network_interfaces = ipr.get_addr(label='docker0')
+        # if executed in docker, use docker0 interface as host
+        # docker0 is not always present, e.g. when using WSL
         if len(docker_network_interfaces) > 0:
             host_ip = ipr.get_addr(label='docker0')[0].get_attr('IFA_ADDRESS')
             self.hosts['host'].append(host_ip)
