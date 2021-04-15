@@ -271,7 +271,7 @@ class WiFiChannel(Channel):
             else:
                 interface = Interface(node=node, ns3_device=ns3_device, address=connected_node.address)
             ns3_device.SetAddress(ns_net.Mac48Address(interface.mac_address))
-            node.add_interface(interface, type_prefix='wifi')
+            node.add_interface(interface, name=connected_node.ifname)
             self.interfaces.append(interface)
 
 

@@ -221,7 +221,7 @@ class ChannelPrototype:
         self.nodes = list()
         self.channel = None  # After creation, this will be the channel object
 
-    def connect(self, node, ip_addr=None):
+    def connect(self, node, ip_addr=None, ifname=None):
         """Adds one node to the channel.
 
         Please note: Every node can only be added to one channel in the same network. Otherwise proper routing is not
@@ -234,6 +234,9 @@ class ChannelPrototype:
         ip_addr : str
             The IP address of that node. If :code:`None` an random IP from the network will be assigned.
             If not :code:`None` the IP address have to be in the range of the network.
+        ifname : str
+            The name of the interface. If :code:`None` a random name will be assigned.
+            If not :code:`None` the max. length is :code:`IFNAMSIZ` (system depended). This will not be checked.
         """
         if node in self.network.nodes and not isinstance(node, SwitchNode):
             raise ValueError("Every node can only be in one channel of a network.")
@@ -242,7 +245,7 @@ class ChannelPrototype:
         if ip_addr is not None:
             address = ipaddress.ip_address(ip_addr)
             self.network.allocated_ip_addresses.append(address)
-        self.nodes.append(ConnectedNode(node, address))
+        self.nodes.append(ConnectedNode(node, address, ifname=ifname))
         self.network.nodes.append(node)
 
     def set_delay(self, delay):
@@ -273,6 +276,7 @@ class ChannelPrototype:
 
 
 class ConnectedNode:
-    def __init__(self, node, address):
+    def __init__(self, node, address, ifname=None):
         self.node = node
         self.address = address
+        self.ifname = ifname
