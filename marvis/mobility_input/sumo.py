@@ -9,11 +9,13 @@ import time
 from xmlrpc.server import SimpleXMLRPCServer
 
 if 'SUMO_HOME' in os.environ:
-    SUMO_HOME = os.environ['SUMO_HOME']
-    sys.path.append(os.path.join(SUMO_HOME, 'tools'))
-    os.environ['PATH'] += os.pathsep + os.path.join(SUMO_HOME, 'bin')
+    tools = os.path.join(os.environ['SUMO_HOME'], 'tools')
+    sys.path.append(tools)
+else:
+    sys.exit("Please declare environment variable 'SUMO_HOME'")
 
-import traci
+# Use libsumo to avoid multithreading problems with traci
+import libsumo as traci
 
 from .mobility_input import MobilityInput
 from .mobility_provider import MobilityProvider
@@ -22,18 +24,13 @@ logger = logging.getLogger(__name__)
 
 class SumoMobilityProvider(MobilityProvider):
     def getVehicleDetails(vehId):
-        isVehicleActive = vehId in traci.vehicle.getIDList()
-        if not isVehicleActive:
-            return {
-                "isVehicleActive": isVehicleActive
-            }
+        vehId = "train"
+        vehicleIsActive = vehId in traci.vehicle.getIDList()
         
-        position3d = traci.vehicle.getPosition3D(vehId)
-        speed = traci.vehicle.getSpeed(vehId)
         return {
-            "isVehicleActive": isVehicleActive,
-            "position3d": position3d,
-            "speed": speed
+            "isVehicleActive": 0 if not vehicleIsActive else 1,
+            "position3d": (0.0, 0.0, 0.0) if not vehicleIsActive else traci.vehicle.getPosition3D(vehId),
+            "speed": 0.0 if not vehicleIsActive else traci.vehicle.getSpeed(vehId)
         }
 
 class RPCServer:
@@ -150,8 +147,11 @@ class SUMOMobilityInput(MobilityInput):
                     self.step_counter = self.step_counter + 1
                     time_this_step = time.time() - step_start_time
                     time.sleep(traci.simulation.getDeltaT() - time_this_step)
-            except traci.exceptions.FatalTraCIError:
-                logger.warning('Something went wrong with SUMO for %s. Maybe the connection was closed.', self.name)
+            except traci.exceptions.TraCIException as e:
+                logger.error(f"Caught TraCI exception. Type: {e.getType()} Command: {e.getCommand()}")
+            except traci.exceptions.FatalTraCIError as e:
+                logger.error(f"Fatal TraCI error caught for {self.name}. Maybe the connection was closed.")
+                sys.exit(1)
 
         thread = threading.Thread(target=run_sumo)
         thread.start()
