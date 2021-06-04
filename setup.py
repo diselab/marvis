@@ -37,7 +37,7 @@ setup(
             (
                 'ns @ '
                 'https://github.com/osmhpi/python-wheels/releases'
-                '/latest/download/ns-3.33-cp37-cp37m-linux_x86_64.whl',
+                '/latest/download/ns-3.33-py3-none-linux_x86_64.whl',
             ),
         ],
         'dev': [
