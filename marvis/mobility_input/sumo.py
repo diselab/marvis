@@ -30,7 +30,10 @@ class SumoMobilityProvider(MobilityProvider):
         return {
             "isVehicleActive": 0 if not vehicleIsActive else 1,
             "position3d": (0.0, 0.0, 0.0) if not vehicleIsActive else traci.vehicle.getPosition3D(vehId),
-            "speed": 0.0 if not vehicleIsActive else traci.vehicle.getSpeed(vehId)
+            "speed": 0.0 if not vehicleIsActive else traci.vehicle.getSpeed(vehId),
+            # From ETSI TS 102 894-2:
+            # The value shall be set to 1022 if the vehicle length is equal to or greater than 102,2 metres.
+            "lengthInCentimeter": 0 if not vehicleIsActive else min(1022, int(traci.vehicle.getLength(vehId) * 10))
         }
 
 class RPCServer:
