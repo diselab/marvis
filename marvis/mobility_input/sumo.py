@@ -24,7 +24,6 @@ logger = logging.getLogger(__name__)
 
 class SumoMobilityProvider(MobilityProvider):
     def getVehicleDetails(vehId):
-        vehId = "train"
         vehicleIsActive = vehId in traci.vehicle.getIDList()
         
         return {
@@ -35,6 +34,9 @@ class SumoMobilityProvider(MobilityProvider):
             # The value shall be set to 1022 if the vehicle length is equal to or greater than 102,2 metres.
             "lengthInCentimeter": 0 if not vehicleIsActive else min(1022, int(traci.vehicle.getLength(vehId) * 10))
         }
+
+    def setSpeed(vehId, newSpeed):
+        traci.vehicle.setSpeed(vehId, newSpeed)
 
 class RPCServer:
     def __init__(self, connection_details):
