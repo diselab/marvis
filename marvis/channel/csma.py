@@ -75,7 +75,7 @@ class CSMAChannel(Channel):
             else:
                 interface = Interface(node=node, ns3_device=ns3_device, address=connected_node.address)
             ns3_device.SetAddress(ns_net.Mac48Address(interface.mac_address))
-            node.add_interface(interface)
+            node.add_interface(interface, name=connected_node.ifname)
             self.interfaces.append(interface)
 
     def prepare(self, simulation):

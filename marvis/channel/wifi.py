@@ -61,7 +61,8 @@ class WiFiChannel(Channel):
         #: Standard from 2013.
         WIFI_802_11ac = wifi.WIFI_PHY_STANDARD_80211ac
         #: "WiFi 6".
-        WIFI_802_11ax = wifi.WIFI_PHY_STANDARD_80211ax
+        # Deactivated due to incompatible ns-3 version
+        # WIFI_802_11ax = wifi.WIFI_PHY_STANDARD_80211ax
         #: Wireless Access in Vehicular Environments (WAVE).
         WIFI_802_11p = wifi.WIFI_PHY_STANDARD_80211_10MHZ
 
@@ -271,7 +272,7 @@ class WiFiChannel(Channel):
             else:
                 interface = Interface(node=node, ns3_device=ns3_device, address=connected_node.address)
             ns3_device.SetAddress(ns_net.Mac48Address(interface.mac_address))
-            node.add_interface(interface)
+            node.add_interface(interface, name=connected_node.ifname)
             self.interfaces.append(interface)
 
 
